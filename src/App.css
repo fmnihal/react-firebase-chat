@@ -19,10 +19,64 @@ body {
   top: 0;
   display: flex;
   align-items: center;
+  gap: 5px;
   justify-content: space-between;
   z-index: 99;
   padding: 10px;
   box-sizing: border-box;
+}
+
+/* .App header div{
+  display: flex;
+  gap: 10px;
+} */
+
+.App header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+/* Light Theme - Default */
+.App.light {
+  background-color: #f0f0f0;
+  color: #282c34;
+}
+.App.light header {
+  background-color: #ffffff;
+  /* background-color: #222222; */
+}
+.App.light header button {
+  color: black;
+}
+/* Dark Theme */
+.App.dark {
+  background-color: #282c34;
+  color: #f0f0f0;
+}
+.App.dark header {
+  background-color: #222222;
+}
+
+.App.light form input {
+  background: #cccccc;
+  color: #333333;
+}
+.App.light form button {
+  background-color: #3b3164;
+}
+.App.light main {
+  background-color: #e0e0e0;
+}
+.App.light .received p {
+  background: #e5e5ea;
+  color: black;
+}
+.App.light .sent p {
+  background: #007bff; /* A different blue for contrast */
+  color: white;
 }
 
 .App section {

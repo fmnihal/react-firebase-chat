@@ -104,19 +104,19 @@
 
 
 
-import React, { useRef, useState, useEffect } from 'react'; // Added useEffect to be safe, but useState/useRef are needed
+import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
 
-// Import the specific functions you need from the new modular SDK
+import { Send, LogOut, Moon, Sun } from 'lucide-react';
+
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { getFirestore, collection, addDoc, serverTimestamp, orderBy, query, limit } from 'firebase/firestore';
 
-// You will still use these hooks
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
-// Initialize Firebase app at the top level
+
 const firebaseConfig = {
   apiKey: "AIzaSyCi5HGn3QUL-Zi_DJKD5AfddXNPnhvdjyg",
   authDomain: "react-firebase-chat-6d4de.firebaseapp.com",
@@ -128,20 +128,25 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 
-// Get the services using the new modular functions
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 
-// Your main App component
+
 function App() {
-  // CORRECT: Call the hook inside the component
   const [user] = useAuthState(auth);
+  const [theme, setTheme]= useState('light');
+  const toggleTheme=()=>{
+    setTheme(currentTheme=>(currentTheme==='light' ? 'dark':'light'));
+  }
 
   return (
-    <div className="App">
+    <div className={`App ${theme}`}>
       <header className="App-header">
-        {/* Pass the user object to SignOut, as it will be available here */}
         <SignOut user={user} />
+        <button onClick={toggleTheme} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          {theme === 'light' ? <Moon /> : <Sun />}
+          {theme === 'light' ? 'Night Mode' : 'Day Mode'}
+        </button>
       </header>
       <section>
         {user ? <ChatRoom /> : <SignIn />}
@@ -160,15 +165,15 @@ function SignIn(){
   )
 }
 
-// Accept the user as a prop
+
 function SignOut({ user }){
   return user && (
-    <button onClick={() => signOut(auth)}>Sign Out</button>
+    <button onClick={() => signOut(auth)} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>Sign Out <LogOut /></button>
   )
 }
 
 function ChatRoom(){
-  // All hooks must be inside the component
+  
   const dummy = useRef();
   const [formValue, setFormValue] = useState('');
 
@@ -199,7 +204,8 @@ function ChatRoom(){
       </main>
       <form onSubmit={sendMessage}>
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)} />
-        <button type='submit'>fly</button>
+        {/* <button type='submit' style={display: 'flex'; alignItems: 'center'; gap: '5px';}><Send /> Send</button> */}
+        <button type='submit' style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><Send /> Send</button>
       </form>
     </>
   )
